@@ -22,8 +22,8 @@ from resolveurl.plugins.__resolve_generic__ import ResolveGeneric
 
 class DatoPornResolver(ResolveGeneric):
     name = "datoporn"
-    domains = ['datoporn.com', 'dato.porn']
-    pattern = '(?://|\.)(datoporn\.com|dato\.porn)/(?:embed[/-])?([0-9a-zA-Z]+)'
+    domains = ['datoporn.com', 'dato.porn', 'datoporn.co']
+    pattern = '(?://|\.)(datoporn\.com|dato\.porn|datoporn\.co)/(?:embed[/-])?([0-9a-zA-Z]+)'
     
     @classmethod
     def _is_enabled(cls):

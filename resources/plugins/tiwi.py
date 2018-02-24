@@ -32,26 +32,24 @@ from resolveurl.resolver import ResolveUrl, ResolverError
 class TiwiResolver(ResolveUrl):
     name = 'tiwi'
     domains = ['tiwi.kiwi']
-    pattern = '(?://|\.)(tiwi\.kiwi)/(?:embed-)?([^\.]+)(?:\.html)?'
+    pattern = '(?://|\.)(tiwi\.kiwi)/(?:embed[/-])?([A-Za-z0-9]+)'
     
     def __init__(self):
         self.net = common.Net()
 
     def get_media_url(self, host, media_id):  
         
-        try:
-            headers = {'User-Agent': common.RAND_UA}
-            web_url = self.get_url(host, media_id)
-            html = self.net.http_GET(web_url, headers=headers).content
-            
-            if html:
-                source = re.search('''<source src="([^'"]+)"''', html, re.DOTALL)
-                if source:
-                    return source.group(1) + helpers.append_headers(headers)
+        headers = {'User-Agent': common.RAND_UA}
+        web_url = self.get_url(host, media_id)
+        html = self.net.http_GET(web_url, headers=headers).content
+        
+        if html:
+            source = re.search('''<source src="([^'"]+)"''', html, re.DOTALL)
+            if source:
+                return source.group(1) + helpers.append_headers(headers)
 
-            raise ResolverError('File not found')
-        except:
-            raise ResolverError('File not found')
+        raise ResolverError('File not found')
+
 
     def get_url(self, host, media_id):
         return self._default_get_url(host, media_id, template='https://{host}/embed-{media_id}.html')
